@@ -38,7 +38,7 @@ class ParticleSwarmOptimizedClustering:
             self.gbest_sse = min(particle.best_sse, self.gbest_sse)
 
     def run(self):
-        print('Initial global best score', self.gbest_score)
+        #print('Initial global best score', self.gbest_score)
         history = []
         for i in range(self.max_iter):
             for particle in self.particles:
@@ -49,9 +49,9 @@ class ParticleSwarmOptimizedClustering:
                     self.gbest_centroids = particle.centroids.copy()
                     self.gbest_score = particle.best_score
             history.append(self.gbest_score)
-            if i % self.print_debug == 0:
-                print('Iteration {:04d}/{:04d} current gbest score {:.18f}'.format(
-                    i + 1, self.max_iter, self.gbest_score))
+            # if i % self.print_debug == 0:
+            #    print('Iteration {:04d}/{:04d} current gbest score {:.18f}'.format(
+            #        i + 1, self.max_iter, self.gbest_score))
         print('Finish with gbest score {:.18f}'.format(self.gbest_score))
         return history
 

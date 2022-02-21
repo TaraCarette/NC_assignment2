@@ -45,7 +45,6 @@ def pso_clustering(x):
         data=x, 
         hybrid=False, 
         max_iter=20, 
-        print_debug=50
         )
 
     return pso.run()
