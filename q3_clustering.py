@@ -57,11 +57,11 @@ def pso_clustering(x):
 def kmeans(x):
     kmeans = KMeans(n_cluster=3, init_pp=False, seed=2018)
     kmeans.fit(x)
-    predicted_kmeans = kmeans.predict(x)
-    return predicted_kmeans
+    return kmeans.predict(x)
 
 
 def generate_data():
+    
     # Dummy data
     data = pd.read_csv('seed.txt', sep='\t', header=None)
     # print(data.head())
@@ -76,11 +76,7 @@ def generate_data():
     for i in range(400):
         x = random.uniform(-1, 1)
         y = random.uniform(-1, 1)
-        if (x >= 0.7) or ((x <= 0.3) and (y >= -0.2 - x)):
-            label = 1
-        else:
-            label = 0
-    
+        label = 1 if (x >= 0.7) or ((x <= 0.3) and (y >= -0.2 - x)) else 0
         df = df.append({'x': x, 'y': y, 'c' : label}, ignore_index=True)
     
     # print(df)
