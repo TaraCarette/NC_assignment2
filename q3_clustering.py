@@ -7,6 +7,7 @@ d) Compare performance of PSO and K-means in terms of quantization error
 e) plot the clusters
 '''
 
+from re import X
 from turtle import xcor
 import pandas as pd
 import numpy as np
@@ -16,6 +17,7 @@ from particle import quantization_error
 from kmeans import KMeans
 from sklearn import datasets
 import random
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -65,18 +67,27 @@ def generate_data():
     # print(data.head())
     x = data.drop([7], axis=1)
     x = x.values
-    x = (x - x.min(axis=0)) / (x.max(axis=0) - x.min(axis=0)) # normalization step
+    x_normalized = (x - x.min(axis=0)) / (x.max(axis=0) - x.min(axis=0)) # normalization step
+    
     
     
     # Generate artificial problem 1
-    df = pd.DataFrame([], columns=list('xy'),)
-    for i in range(4):
-        df = df.append({'x': random.randrange(-1,1), 'y': random.randrange(-1,1)}, ignore_index=True)
-        
-        # TODO: fix class labels
-        # if 
-    print(df)
-
+    df = pd.DataFrame([], columns=list('xyc'),)
+    for i in range(400):
+        x = random.uniform(-1, 1)
+        y = random.uniform(-1, 1)
+        if (x >= 0.7) or ((x <= 0.3) and (y >= -0.2 - x)):
+            label = 1
+        else:
+            label = 0
+    
+        df = df.append({'x': x, 'y': y, 'c' : label}, ignore_index=True)
+    
+    # print(df)
+    # df.plot(x = 'x', y = 'y', c= 'c', kind='scatter')
+    # plt.show()
+    
+    
     # Iris dataset
     iris = datasets.load_iris()
     iris_df = pd.DataFrame(iris.data)
@@ -88,7 +99,7 @@ def generate_data():
     # any kind of feature selection or correlation analysis should be first done on these
     iris_X = iris_df.iloc[:,[0,1,2,3]]
     
-    return x, 'iris_X'
+    return x_normalized, iris_X
 
 
 
