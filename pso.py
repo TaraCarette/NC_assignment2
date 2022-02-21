@@ -52,7 +52,7 @@ class ParticleSwarmOptimizedClustering:
             # if i % self.print_debug == 0:
             #    print('Iteration {:04d}/{:04d} current gbest score {:.18f}'.format(
             #        i + 1, self.max_iter, self.gbest_score))
-        print('Finish with gbest score {:.18f}'.format(self.gbest_score))
+        #print('Finish with gbest score {:.18f}'.format(self.gbest_score))
         return history
 
 

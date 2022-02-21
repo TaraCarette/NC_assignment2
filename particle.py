@@ -8,7 +8,10 @@ def quantization_error(centroids: np.ndarray, labels: np.ndarray, data: np.ndarr
     for i, c in enumerate(centroids):
         idx = np.where(labels == i)[0]
         dist = np.linalg.norm(data[idx] - c, axis=1).sum()
-        dist /= len(idx)
+        if len(idx) == 0:
+            dist = 0.01
+        else:
+            dist /= len(idx)
         error += dist
     error /= len(centroids)
     return error
@@ -19,9 +22,9 @@ class Particle:
                  n_cluster: int,
                  data: np.ndarray,
                  use_kmeans: bool = False,
-                 w: float = 0.9,
-                 c1: float = 0.5,
-                 c2: float = 0.3):
+                 w: float = 0.72,
+                 c1: float = 1.49,
+                 c2: float = 1.49):
         index = np.random.choice(list(range(len(data))), n_cluster)
         self.centroids = data[index].copy()
         if use_kmeans:
