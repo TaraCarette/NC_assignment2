@@ -14,13 +14,15 @@ import matplotlib.pyplot as plt
 from pso import ParticleSwarmOptimizedClustering
 from particle import quantization_error
 from kmeans import KMeans
+from sklearn import datasets
+import random
 
 
 def main():
     x, iris = generate_data()
 
-    pso_clustering(x)
-    kmeans(x)
+    pso_result = pso_clustering(x)
+    kmeans_result = kmeans(x)
 
     compare()
     plot()
@@ -58,15 +60,35 @@ def kmeans(x):
 
 
 def generate_data():
+    # Dummy data
     data = pd.read_csv('seed.txt', sep='\t', header=None)
     # print(data.head())
     x = data.drop([7], axis=1)
     x = x.values
     x = (x - x.min(axis=0)) / (x.max(axis=0) - x.min(axis=0)) # normalization step
     
-    #TODO: get iris dataset
     
-    return x, 'iris'
+    # Generate artificial problem 1
+    df = pd.DataFrame([], columns=list('xy'),)
+    for i in range(4):
+        df = df.append({'x': random.randrange(-1,1), 'y': random.randrange(-1,1)}, ignore_index=True)
+        
+        # TODO: fix class labels
+        # if 
+    print(df)
+
+    # Iris dataset
+    iris = datasets.load_iris()
+    iris_df = pd.DataFrame(iris.data)
+    iris_df['class']=iris.target
+    iris_df.columns=['sepal_len', 'sepal_wid', 'petal_len', 'petal_wid', 'class']
+    iris_df.dropna(how="all", inplace=True) # remove any empty lines
+    
+    #selecting only first 4 columns as they are the independent(X) variable
+    # any kind of feature selection or correlation analysis should be first done on these
+    iris_X = iris_df.iloc[:,[0,1,2,3]]
+    
+    return x, 'iris_X'
 
 
 
