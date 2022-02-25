@@ -22,7 +22,7 @@ class Particle:
                  n_cluster: int,
                  data: np.ndarray,
                  use_kmeans: bool = False,
-                 w: float = 0.72,
+                 w: float = 0.0,
                  c1: float = 1.49,
                  c2: float = 1.49):
         index = np.random.choice(list(range(len(data))), n_cluster)

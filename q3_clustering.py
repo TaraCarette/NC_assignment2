@@ -25,17 +25,17 @@ def main():
     x, iris = generate_data()
 
     # artificial dataset 1
-    # pso_result, pso = pso_clustering(x)
-    # kmeans_result, kmeans = get_kmeans(x)
-    # compare(x, pso_result, pso, kmeans_result, kmeans)
-    #plot(x, kmeans_result, kmeans)
+    pso_result, pso = pso_clustering(x)
+    kmeans_result, kmeans = get_kmeans(x)
+    compare(x, pso_result, pso, kmeans_result, kmeans)
+    plot(x, pso_result, pso, kmeans_result)
     
     
     # Iris dataset
-    pso_result, pso = pso_clustering(iris)
-    kmeans_result, kmeans = get_kmeans(iris)
-    compare(iris, pso_result, pso, kmeans_result, kmeans)
-    plot(iris, kmeans_result, kmeans)
+    # pso_result, pso = pso_clustering(iris)
+    # kmeans_result, kmeans = get_kmeans(iris)
+    # compare(iris, pso_result, pso, kmeans_result, kmeans)
+    # plot(iris, kmeans_result)
 
     
     
@@ -117,7 +117,7 @@ def compare(x, pso_result, pso, kmeans_result, kmeans):
     print('Quantization PSO:',
           pso.gbest_score)
 
-def plot(x, kmeans_result, kmeans):
+def plot(x, pso_result, pso, kmeans_result):
     # plot kmeans result
     label = kmeans_result
     filtered_label0 = x[label == 0]
@@ -129,8 +129,7 @@ def plot(x, kmeans_result, kmeans):
     plt.scatter(filtered_label2[:,0] , filtered_label2[:,1] , color = 'blue')
     plt.show()
     
-    # plot PSO result
     
-
+    
 if __name__ == '__main__':
     positions = main()
