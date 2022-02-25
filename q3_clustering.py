@@ -25,21 +25,17 @@ def main():
     x, iris = generate_data()
 
     # artificial dataset 1
-    pso_result, pso = pso_clustering(x)
-    kmeans_result, kmeans = get_kmeans(x)
-    compare(x, pso_result, pso, kmeans_result, kmeans)
-    plot(x, pso_result, pso, kmeans_result)
+    # pso_result, pso = pso_clustering(x)
+    # kmeans_result, kmeans = get_kmeans(x)
+    # compare(x, pso_result, pso, kmeans_result, kmeans)
+    # plot(x, pso_result, pso, kmeans_result)
     
     
     # Iris dataset
-    # pso_result, pso = pso_clustering(iris)
-    # kmeans_result, kmeans = get_kmeans(iris)
-    # compare(iris, pso_result, pso, kmeans_result, kmeans)
-    # plot(iris, kmeans_result)
-
-    
-    
-    
+    pso_result, pso = pso_clustering(iris)
+    kmeans_result, kmeans = get_kmeans(iris)
+    compare(iris, pso_result, pso, kmeans_result, kmeans)
+    plot(iris, pso_result, pso, kmeans_result)
 
 def pso_clustering(x):
     # 1) initialize
@@ -54,7 +50,7 @@ def pso_clustering(x):
                 # 2d) update cluster centroids
         
     pso = ParticleSwarmOptimizedClustering(
-        n_cluster=2, 
+        n_cluster=3, 
         n_particles=10, 
         data=x, 
         hybrid=False, 
@@ -71,7 +67,6 @@ def get_kmeans(x):
 
 
 def generate_data():
-    
     # Dummy data
     data = pd.read_csv('seed.txt', sep='\t', header=None)
     # print(data.head())
@@ -79,7 +74,6 @@ def generate_data():
     x = x.values
     x_normalized = (x - x.min(axis=0)) / (x.max(axis=0) - x.min(axis=0)) # normalization step
 
-    
     
     # Generate artificial problem 1
     df = pd.DataFrame([], columns=list('xyc'),)
@@ -120,10 +114,22 @@ def compare(x, pso_result, pso, kmeans_result, kmeans):
 def plot(x, pso_result, pso, kmeans_result):
     # plot kmeans result
     label = kmeans_result
+
     filtered_label0 = x[label == 0]
     filtered_label1 = x[label == 1]
     filtered_label2 = x[label == 2]
     
+    plt.scatter(filtered_label0[:,0] , filtered_label0[:,1] , color = 'red')
+    plt.scatter(filtered_label1[:,0] , filtered_label1[:,1] , color = 'black')
+    plt.scatter(filtered_label2[:,0] , filtered_label2[:,1] , color = 'blue')
+    plt.show()
+    
+    # plot PSO result
+    # print(pso.gbest_centroids.copy())
+    label = pso.run()[1]
+    filtered_label0 = x[label == 0]
+    filtered_label1 = x[label == 1]
+    filtered_label2 = x[label == 2]
     plt.scatter(filtered_label0[:,0] , filtered_label0[:,1] , color = 'red')
     plt.scatter(filtered_label1[:,0] , filtered_label1[:,1] , color = 'black')
     plt.scatter(filtered_label2[:,0] , filtered_label2[:,1] , color = 'blue')

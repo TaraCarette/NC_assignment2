@@ -23,6 +23,7 @@ class ParticleSwarmOptimizedClustering:
         self.gbest_centroids = None
         self.gbest_sse = np.inf
         self._init_particles()
+        #self.clusters = particle.clusters
 
     def _init_particles(self):
         for i in range(self.n_particles):
@@ -53,7 +54,9 @@ class ParticleSwarmOptimizedClustering:
             #    print('Iteration {:04d}/{:04d} current gbest score {:.18f}'.format(
             #        i + 1, self.max_iter, self.gbest_score))
         #print('Finish with gbest score {:.18f}'.format(self.gbest_score))
-        return history
+        #print(particle._predict)
+        clusters = particle.clusters
+        return history, clusters
 
 
 if __name__ == "__main__":

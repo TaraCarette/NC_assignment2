@@ -34,6 +34,7 @@ class Particle:
         self.best_position = self.centroids.copy()
         self.best_score = quantization_error(self.centroids, self._predict(data), data)
         self.best_sse = calc_sse(self.centroids, self._predict(data), data)
+        self.clusters = self._predict(data)
         self.velocity = np.zeros_like(self.centroids)
         self._w = w
         self._c1 = c1
