@@ -23,10 +23,16 @@ import matplotlib.pyplot as plt
 def main():
     x, iris = generate_data()
 
-    pso_result = pso_clustering(x)
-    kmeans_result = kmeans(x)
+    # artificial dataset 1
+    # pso_result, pso = pso_clustering(x)
+    # kmeans_result, kmeans = get_kmeans(x)
+    # compare(x, pso_result, pso, kmeans_result, kmeans)
+    
+    # Iris dataset
+    pso_result, pso = pso_clustering(iris)
+    kmeans_result, kmeans = get_kmeans(iris)
+    compare(iris, pso_result, pso, kmeans_result, kmeans)
 
-    compare()
     plot()
     
     
@@ -44,20 +50,20 @@ def pso_clustering(x):
                 # 2d) update cluster centroids
         
     pso = ParticleSwarmOptimizedClustering(
-        n_cluster=3, 
+        n_cluster=2, 
         n_particles=10, 
         data=x, 
         hybrid=False, 
-        max_iter=20, 
+        max_iter=100, 
         )
 
-    return pso.run()
+    return pso.run(), pso
             
 
-def kmeans(x):
+def get_kmeans(x):
     kmeans = KMeans(n_cluster=3, init_pp=False, seed=2018)
     kmeans.fit(x)
-    return kmeans.predict(x)
+    return kmeans.predict(x), kmeans
 
 
 def generate_data():
@@ -68,7 +74,7 @@ def generate_data():
     x = data.drop([7], axis=1)
     x = x.values
     x_normalized = (x - x.min(axis=0)) / (x.max(axis=0) - x.min(axis=0)) # normalization step
-    
+
     
     
     # Generate artificial problem 1
@@ -78,7 +84,7 @@ def generate_data():
         y = random.uniform(-1, 1)
         label = 1 if (x >= 0.7) or ((x <= 0.3) and (y >= -0.2 - x)) else 0
         df = df.append({'x': x, 'y': y, 'c' : label}, ignore_index=True)
-    
+    x = df.values
     # print(df)
     # df.plot(x = 'x', y = 'y', c= 'c', kind='scatter')
     # plt.show()
@@ -94,13 +100,18 @@ def generate_data():
     #selecting only first 4 columns as they are the independent(X) variable
     # any kind of feature selection or correlation analysis should be first done on these
     iris_X = iris_df.iloc[:,[0,1,2,3]]
+    iris_X = iris_X.values
+    iris_X = (iris_X - iris_X.min(axis=0)) / (iris_X.max(axis=0) - iris_X.min(axis=0))
     
-    return x_normalized, iris_X
+    return x, iris_X
 
 
 
-def compare():
-    pass
+def compare(x, pso_result, pso, kmeans_result, kmeans):
+    print('Quantization Kmeans:'
+          , quantization_error(centroids=kmeans.centroid, data=x, labels=kmeans_result))
+    print('Quantization PSO:',
+          pso.gbest_score)
 
 def plot():
     pass
