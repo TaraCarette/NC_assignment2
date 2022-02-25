@@ -20,6 +20,7 @@ import random
 import matplotlib.pyplot as plt
 
 
+
 def main():
     x, iris = generate_data()
 
@@ -27,13 +28,16 @@ def main():
     # pso_result, pso = pso_clustering(x)
     # kmeans_result, kmeans = get_kmeans(x)
     # compare(x, pso_result, pso, kmeans_result, kmeans)
+    #plot(x, kmeans_result, kmeans)
+    
     
     # Iris dataset
     pso_result, pso = pso_clustering(iris)
     kmeans_result, kmeans = get_kmeans(iris)
     compare(iris, pso_result, pso, kmeans_result, kmeans)
+    plot(iris, kmeans_result, kmeans)
 
-    plot()
+    
     
     
 
@@ -113,8 +117,20 @@ def compare(x, pso_result, pso, kmeans_result, kmeans):
     print('Quantization PSO:',
           pso.gbest_score)
 
-def plot():
-    pass
+def plot(x, kmeans_result, kmeans):
+    # plot kmeans result
+    label = kmeans_result
+    filtered_label0 = x[label == 0]
+    filtered_label1 = x[label == 1]
+    filtered_label2 = x[label == 2]
+    
+    plt.scatter(filtered_label0[:,0] , filtered_label0[:,1] , color = 'red')
+    plt.scatter(filtered_label1[:,0] , filtered_label1[:,1] , color = 'black')
+    plt.scatter(filtered_label2[:,0] , filtered_label2[:,1] , color = 'blue')
+    plt.show()
+    
+    # plot PSO result
+    
 
 if __name__ == '__main__':
     positions = main()
